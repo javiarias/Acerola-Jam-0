@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8q0w04spf1ly"]
+
+[ext_resource type="Script" path="res://scripts/test/LabelTest.gd" id="1_iucke"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+
+[node name="Panel" type="Panel" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Control/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.212674
+anchor_top = 0.327161
+anchor_right = 0.736111
+anchor_bottom = 0.535494
+script = ExtResource("1_iucke")
+metadata/_edit_use_anchors_ = true
