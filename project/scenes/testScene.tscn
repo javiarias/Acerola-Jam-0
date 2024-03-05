@@ -1,6 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://c8q0w04spf1ly"]
+[gd_scene load_steps=8 format=3 uid="uid://c8q0w04spf1ly"]
 
 [ext_resource type="Script" path="res://scripts/test/LabelTest.gd" id="1_iucke"]
+[ext_resource type="Script" path="res://scripts/Crop.gd" id="2_b8fi0"]
+[ext_resource type="Texture2D" uid="uid://bgesc4g6t7fs0" path="res://sprites/TEST/crops/crop1.tres" id="3_rxf56"]
+[ext_resource type="Texture2D" uid="uid://drklkco2fqj6l" path="res://sprites/TEST/crops/crop2.tres" id="4_inkd5"]
+[ext_resource type="Texture2D" uid="uid://50231nwng0l8" path="res://sprites/TEST/crops/crop3.tres" id="5_kvlqi"]
+[ext_resource type="Texture2D" uid="uid://cnqfn11rhdau6" path="res://sprites/TEST/crops/crop4.tres" id="6_hgeq8"]
+[ext_resource type="Texture2D" uid="uid://dv76iw3gttb30" path="res://sprites/TEST/crops/crop5.tres" id="7_148nw"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -27,3 +33,11 @@ anchor_right = 0.736111
 anchor_bottom = 0.535494
 script = ExtResource("1_iucke")
 metadata/_edit_use_anchors_ = true
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(466, 333)
+scale = Vector2(4.32, 4.32)
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D"]
+script = ExtResource("2_b8fi0")
+StagesSprites = Array[Texture2D]([ExtResource("3_rxf56"), ExtResource("4_inkd5"), ExtResource("5_kvlqi"), ExtResource("6_hgeq8"), ExtResource("7_148nw")])
