@@ -1,0 +1,1 @@
+SOURCED FROM: https://www.deviantart.com/pokeoverworldspriter/art/BW-Overworld-Bases-Updated-291104491
