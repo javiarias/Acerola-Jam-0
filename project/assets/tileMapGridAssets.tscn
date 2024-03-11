@@ -1,5 +1,48 @@
-[gd_scene format=3 uid="uid://cnn1wkfmn41j6"]
+[gd_scene load_steps=7 format=3 uid="uid://cnn1wkfmn41j6"]
+
+[ext_resource type="Script" path="res://scripts/Tile.gd" id="1_3i2lj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6wab2"]
+transparency = 1
+albedo_color = Color(1, 0, 0.698039, 0.258824)
+
+[sub_resource type="BoxMesh" id="BoxMesh_t4qtt"]
+lightmap_size_hint = Vector2i(5, 7)
+material = SubResource("StandardMaterial3D_6wab2")
+size = Vector3(0.16, 0.01, 0.16)
+subdivide_depth = 95
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jht4p"]
+size = Vector3(0.16, 0.01, 0.16)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4j83k"]
+transparency = 1
+albedo_color = Color(0, 0.635294, 0.803922, 0.286275)
+
+[sub_resource type="BoxMesh" id="BoxMesh_fnw4n"]
+lightmap_size_hint = Vector2i(5, 7)
+material = SubResource("StandardMaterial3D_4j83k")
+size = Vector3(0.16, 0.01, 0.16)
+subdivide_depth = 95
 
 [node name="TileMapGridAssets" type="Node3D"]
 
-[node name="tile" type="CharacterBody3D" parent="."]
+[node name="NonTillable" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.174113, 0, 0)
+mesh = SubResource("BoxMesh_t4qtt")
+script = ExtResource("1_3i2lj")
+CanTill = false
+
+[node name="NonTillable2" type="Area3D" parent="NonTillable"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NonTillable/NonTillable2"]
+shape = SubResource("BoxShape3D_jht4p")
+
+[node name="Tillable" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_fnw4n")
+script = ExtResource("1_3i2lj")
+
+[node name="Tillable2" type="Area3D" parent="Tillable"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Tillable/Tillable2"]
+shape = SubResource("BoxShape3D_jht4p")

@@ -7,11 +7,14 @@ var displayIndicator = true
 
 var inventory = Inventory.new()
 
+var currentTile
+
 
 func _process(delta):
 	
 	if displayIndicator:
-		var currentTile = gridMap.local_to_map(movement.position)
+		currentTile = gridMap.local_to_map(movement.position)
+		currentTile.y = 0
 		match movement.currentDir:
 			Movement.MoveDir.UP:
 				currentTile.z -= 1
@@ -37,6 +40,9 @@ func _process(delta):
 	pass
 
 func _input(event):
+	if currentTile == null:
+		return
+	
 	if event.is_action_pressed("use"):
 		useTool()
 		pass
@@ -64,7 +70,16 @@ func _input(event):
 
 
 func useTool():
-	#TODO: SPAWN TILLED SOIL OBJECT?
+	if true:
+		var can = false
+		var tile = gridMap.get_cell_item(currentTile)
+		if tile > 0:
+			var aux = gridMap.mesh_library.get_item_name(gridMap.get_cell_item(currentTile))
+			can = aux == "Tillable"
+			pass
+		print(can)
+		#TODO: SPAWN TILLED SOIL OBJECT?
+		pass
 	#TODO: start music play?
 	#TODO: plant?
 	#TODO: water?
