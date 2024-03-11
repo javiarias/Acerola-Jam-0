@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://c8q0w04spf1ly"]
+[gd_scene load_steps=18 format=3 uid="uid://c8q0w04spf1ly"]
 
 [ext_resource type="Script" path="res://scripts/test/LabelTest.gd" id="1_iucke"]
 [ext_resource type="Script" path="res://scripts/Crop.gd" id="2_b8fi0"]
@@ -8,8 +8,11 @@
 [ext_resource type="Texture2D" uid="uid://cnqfn11rhdau6" path="res://sprites/TEST/crops/crop4.tres" id="6_hgeq8"]
 [ext_resource type="Texture2D" uid="uid://dv76iw3gttb30" path="res://sprites/TEST/crops/crop5.tres" id="7_148nw"]
 [ext_resource type="TileSet" uid="uid://ch6y22nky4m6d" path="res://sprites/TEST/tilemap/new_tile_set.tres" id="8_u8mbr"]
+[ext_resource type="MeshLibrary" uid="uid://7tyo3d43t2r" path="res://assets/tileMapGrid.tres" id="9_ev2eg"]
 [ext_resource type="SpriteFrames" uid="uid://cwk6itcl5ppa7" path="res://sprites/TEST/charSprite/new_sprite_frames.tres" id="9_iqq8e"]
 [ext_resource type="Script" path="res://scripts/Movement.gd" id="10_8dmvn"]
+[ext_resource type="Script" path="res://scripts/Player.gd" id="12_s63op"]
+[ext_resource type="Texture2D" uid="uid://c6fvsvm2wabin" path="res://sprites/TEST/tilemap/toolIndicator.png" id="13_oemd0"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_06baq"]
 viewport_path = NodePath("SubViewport")
@@ -20,6 +23,10 @@ size = Vector3(10.293, 10.272, 0.00585449)
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ict71"]
 radius = 0.0906168
 height = 0.287204
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_7qn2o"]
+height = 0.313476
+radius = 0.360348
 
 [node name="Node2D" type="Node3D"]
 
@@ -80,40 +87,56 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Sprite3D" type="Sprite3D" parent="."]
+[node name="map" type="Sprite3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
 texture_filter = 0
 texture = SubResource("ViewportTexture_06baq")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Sprite3D"]
+[node name="StaticBody3D" type="StaticBody3D" parent="map"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Sprite3D/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="map/StaticBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.138031, 0, -0.00207275)
 shape = SubResource("BoxShape3D_0rbos")
 
-[node name="Node2D" type="Node2D" parent="."]
-visible = false
-position = Vector2(466, 333)
-scale = Vector2(4.32, 4.32)
-
 [node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource("9_ev2eg")
+cell_size = Vector3(0.16, 0.16, 0.16)
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("Sprite")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.00960048, 0.165868, -0.0807441)
+[node name="player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("Sprite")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.00960048, 0.233478, -0.0807441)
 script = ExtResource("10_8dmvn")
-Sprite = NodePath("AnimatedSprite3D")
+speed = 75
+Sprite = NodePath("sprite")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+[node name="col" type="CollisionShape3D" parent="player"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_ict71")
 
-[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="CharacterBody3D"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.234513, 1.49012e-08)
+[node name="sprite" type="AnimatedSprite3D" parent="player"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 texture_filter = 0
 render_priority = 10
 sprite_frames = ExtResource("9_iqq8e")
 animation = &"down"
 autoplay = "down"
 
-[node name="Camera3D" type="Camera3D" parent="CharacterBody3D"]
+[node name="cam" type="Camera3D" parent="player"]
 transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, -0.86, 0.683)
+
+[node name="trigger" type="Area3D" parent="player"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="player/trigger"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CylinderShape3D_7qn2o")
+
+[node name="playerInfo" type="Node" parent="player" node_paths=PackedStringArray("toolIndicator", "gridMap", "movement")]
+script = ExtResource("12_s63op")
+toolIndicator = NodePath("../../toolUseSquareIndicator")
+gridMap = NodePath("../../GridMap")
+movement = NodePath("..")
+
+[node name="toolUseSquareIndicator" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 5.04, 0, -0.24)
+texture_filter = 0
+render_priority = 1
+texture = ExtResource("13_oemd0")

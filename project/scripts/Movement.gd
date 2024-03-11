@@ -1,3 +1,4 @@
+class_name Movement
 extends CharacterBody3D
 
 # How fast the player moves in meters per second.
@@ -14,28 +15,29 @@ var wasPaused = true
 enum MoveDir { UP, DOWN, LEFT, RIGHT }
 
 var currentDir = MoveDir.DOWN
+var moveDir = Vector3.ZERO
 
+func _process(delta):
 
-func _physics_process(delta):
-	var direction = Vector3.ZERO
+	moveDir = Vector3.ZERO
 
 	if Input.is_action_pressed("move_right"):
-		direction.x += 1
+		moveDir.x += 1
 	elif Input.is_action_pressed("move_left"):
-		direction.x -= 1
+		moveDir.x -= 1
 		
 	if Input.is_action_pressed("move_down"):
-		direction.z += 1
+		moveDir.z += 1
 	if Input.is_action_pressed("move_up"):
-		direction.z -= 1
+		moveDir.z -= 1
 
-	if direction == Vector3.ZERO:
+	if moveDir == Vector3.ZERO:
 		Sprite.set_frame(1)
 		Sprite.pause()
 		wasPaused = true
 		return
 	else:
-		direction = direction.normalized()
+		moveDir = moveDir.normalized()
 		
 		if wasPaused:
 			Sprite.set_frame(0)
@@ -43,35 +45,41 @@ func _physics_process(delta):
 			Sprite.play()
 			pass
 		
-		if direction.z >= 0.5:
+		if moveDir.z >= 0.5:
 			if currentDir != MoveDir.DOWN:
 				Sprite.set_animation("down")
 				currentDir = MoveDir.DOWN
 				pass
 			pass
-		elif direction.z <= -0.5:
+		elif moveDir.z <= -0.5:
 			if currentDir != MoveDir.UP:
 				Sprite.set_animation("up")
 				currentDir = MoveDir.UP
 				pass
 			pass
-		elif direction.x >= 0.5:
+		elif moveDir.x >= 0.5:
 			if currentDir != MoveDir.RIGHT:
 				Sprite.set_animation("right")
 				currentDir = MoveDir.RIGHT
 				pass
 			pass
-		elif direction.x <= -0.5:
+		elif moveDir.x <= -0.5:
 			if currentDir != MoveDir.LEFT:
 				Sprite.set_animation("left")
 				currentDir = MoveDir.LEFT
 				pass
 			pass
-		
+	
+	
+	
+	pass
 
+
+func _physics_process(delta):
+	
 	# Ground Velocity
-	target_velocity.x = direction.x * speed
-	target_velocity.z = direction.z * speed
+	target_velocity.x = moveDir.x * speed * delta
+	target_velocity.z = moveDir.z * speed * delta
 
 	# Vertical Velocity
 	if not is_on_floor(): # If in the air, fall towards the floor. Literally gravity
